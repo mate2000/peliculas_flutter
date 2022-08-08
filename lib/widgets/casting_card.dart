@@ -13,7 +13,7 @@ class CastingCards extends StatelessWidget {
         itemCount: 10,
         scrollDirection: Axis.horizontal,
         itemBuilder: (BuildContext context, int index) {
-          return _CastCard();
+          return const _CastCard();
         },
       ),
     );
@@ -35,16 +35,16 @@ class _CastCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: const FadeInImage(
               placeholder: AssetImage("assets/loading.gif"),
-              image: NetworkImage("https://via.placeholder.com/150x300"),
+              image: AssetImage("assets/no-image.jpg"),
               height: 140,
               width: 100,
               fit: BoxFit.cover,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
-          Text(
+          const Text(
             "actor.name",
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
