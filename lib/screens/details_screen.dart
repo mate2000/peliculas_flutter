@@ -23,9 +23,11 @@ class DetailsScreen extends StatelessWidget {
             movie: movie,
           ),
           const SizedBox(
-            height: 5,
+            height: 8,
           ),
-          CastingCards()
+          CastingCards(
+            movieId: movie.id,
+          )
         ]))
       ],
     ));
@@ -45,7 +47,17 @@ class _CustomAppBar extends StatelessWidget {
       expandedHeight: 200,
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: true,
-        title: Text(movie.title),
+        titlePadding: const EdgeInsets.all(0),
+        title: Container(
+            width: double.infinity,
+            alignment: Alignment.bottomCenter,
+            padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+            color: Colors.black12,
+            child: Text(
+              movie.title,
+              style: const TextStyle(fontSize: 16),
+              textAlign: TextAlign.center,
+            )),
         background: FadeInImage(
           placeholder: const AssetImage("assets/loading.gif"),
           image: NetworkImage(movie.fullBackDropPath),
@@ -63,6 +75,7 @@ class _PosterAndTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final size = MediaQuery.of(context).size;
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(
@@ -74,12 +87,15 @@ class _PosterAndTitle extends StatelessWidget {
       child: Flexible(
         child: Row(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: FadeInImage(
-                placeholder: const AssetImage("assets/loading.gif"),
-                image: NetworkImage(movie.fullPosterImg),
-                height: 150,
+            Hero(
+              tag: movie.id,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: FadeInImage(
+                  placeholder: const AssetImage("assets/loading.gif"),
+                  image: NetworkImage(movie.fullPosterImg),
+                  height: 150,
+                ),
               ),
             ),
             const SizedBox(
@@ -88,17 +104,26 @@ class _PosterAndTitle extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  movie.title,
-                  style: textTheme.headline6,
-                  overflow: TextOverflow.fade,
-                  maxLines: 2,
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: size.width - 190),
+                  child: Text(
+                    movie.title,
+                    style: textTheme.headline5,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
                 ),
-                Text(
-                  movie.originalTitle,
-                  style: textTheme.subtitle1,
-                  overflow: TextOverflow.fade,
-                  maxLines: 5,
+                const SizedBox(
+                  height: 7,
+                ),
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: size.width - 190),
+                  child: Text(
+                    movie.originalTitle,
+                    style: textTheme.subtitle1,
+                    overflow: TextOverflow.fade,
+                    maxLines: 2,
+                  ),
                 ),
                 Row(
                   children: [
